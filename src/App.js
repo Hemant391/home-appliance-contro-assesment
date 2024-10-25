@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+
+import React, { useState } from 'react';
+import ApplianceList from './components/ApplianceList';
+import "./App.css";
+import ApplianceCard from './components/ApplianceCard';
+import Fan from './components/Fan';
+import Ac from './components/Ac';
+import Light from './components/Light';
 
 function App() {
+  const [show,setShow]=useState('Fan');
+  const [isOn, setIsOn] = useState(true);
+  const handleclick=(e)=>{
+    setShow(e.target.innerText)
+  }
+  const togglePower = () => {
+    setIsOn(!isOn);
+  };
+
+  const appliances=["Fan","Ac","Light"]
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Home Appliance Control</h1>
+      <div className="cards">
+      {appliances.map((ele,ind) => (
+        <ApplianceCard key={ind} appliance={ele} click={handleclick} />
+      ))}
+      </div>
+      <div className="container">
+      {show==="Fan" &&<Fan  powerswitch={togglePower}/>}
+      {show==="Ac" && <Ac powerswitch={togglePower}/> }
+      {show==="Light" &&<Light powerswitch={togglePower}/> }
+      </div>
     </div>
   );
 }
